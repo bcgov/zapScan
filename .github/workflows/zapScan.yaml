@@ -4,7 +4,7 @@ on:
   push:
 jobs:
   zap-owasp:
-    uses: llowgn/pipeline-templates/.github/workflows/owasp-scan.yaml@main
+    uses: bcgov/pipeline-templates-updated-/.github/workflows/owasp-scan.yaml@main
     with:
       ZAP_SCAN_TYPE: 'base' # Accepted values are base and full.
       ZAP_TARGET_URL: https://test2-wao-preiq.labour.gov.bc.ca/
