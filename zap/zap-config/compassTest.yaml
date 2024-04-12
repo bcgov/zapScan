@@ -3,7 +3,6 @@ env:
   contexts:
   - name: "Authentication Test"
     urls:
-    - "https://logon7.gov.bc.ca"
     - "https://compass.gww.gov.bc.ca/"
     includePaths:
     - "https://logon7.gov.bc.ca.*"
