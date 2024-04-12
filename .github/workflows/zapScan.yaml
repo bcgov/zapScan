@@ -1,7 +1,4 @@
-name: owasp-scan
-on:
-  workflow_dispatch:
-  push:
+ name: owasp-scan
 jobs:
   zap-owasp:
     uses:    bcgov/pipeline-templates-updated-/.github/workflows/owasp-scan.yaml@main
