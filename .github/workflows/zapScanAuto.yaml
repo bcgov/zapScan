@@ -33,3 +33,8 @@ jobs:
         -e HOME=/home/zap \
         -v ${{ github.workspace }}/zap/zap-config:/zap/zap-config \
         softwaresecurityproject/zap-stable:latest zap.sh -cmd -autorun /zap/zap-config/compassTest.yaml
+
+    - name: Setup ZAP Configuration
+      run: |
+        mkdir -p /zap/zap-config
+        cp -r ${{ github.workspace }}/zap/zap-config/* /zap/zap-config/
