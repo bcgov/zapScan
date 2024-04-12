@@ -16,8 +16,8 @@ jobs:
     - name: Replace secrets in compassTest.yaml
       shell: pwsh
       run: |
-        (Get-Content zap/compassTest.yaml) -replace '\${USERNAME}', '${{ secrets.USERNAME }}' | Set-Content zap/compassTest.yaml
-        (Get-Content zap/compassTest.yaml) -replace '\${PASSWORD}', '${{ secrets.PASSWORD }}' | Set-Content zap/compassTest.yaml
+        (Get-Content zap/zap-config/compassTest.yaml) -replace '\${USERNAME}', '${{ secrets.USERNAME }}' | Set-Content zap/zap-config/compassTest.yaml
+        (Get-Content zap/zap-config/compassTest.yaml) -replace '\${PASSWORD}', '${{ secrets.PASSWORD }}' | Set-Content zap/zap-config/compassTest.yaml
 
     - name: Run ZAP Automation Framework
       uses: docker://softwaresecurityproject/zap-stable
