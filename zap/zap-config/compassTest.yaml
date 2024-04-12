@@ -86,7 +86,7 @@ jobs:
 - parameters:
     template: "risk-confidence-html"
     theme: "original"
-    reportDir: "zap"
+    reportDir: "zap/"
     reportFile: ""
     reportTitle: "ZAP Scanning Report"
     reportDescription: ""
