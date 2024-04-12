@@ -4,9 +4,10 @@ on:
   push:
     branches:
       - main
+
 jobs:
   zap_scan:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest 
     name: Run ZAP Automation Framework
 
     steps:
@@ -14,20 +15,22 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Replace secrets in compassTest.yaml
-      shell: pwsh
       run: |
-        (Get-Content zap/zap-config/compassTest.yaml) -replace '\${USERNAME}', '${{ secrets.USERNAME }}' | Set-Content zap/zap-config/compassTest.yaml
-        (Get-Content zap/zap-config/compassTest.yaml) -replace '\${PASSWORD}', '${{ secrets.PASSWORD }}' | Set-Content zap/zap-config/compassTest.yaml
+        sed -i 's/\${USERNAME}/${{ secrets.USERNAME }}/g' zap/zap-config/compassTest.yaml
+        sed -i 's/\${PASSWORD}/${{ secrets.PASSWORD }}/g' zap/zap-config/compassTest.yaml
+
+
+    - name: Pull ZAP Docker Image
+      run: docker pull softwaresecurityproject/zap-stable:latest
+
 
     - name: Run ZAP Automation Framework
-      uses: docker://softwaresecurityproject/zap-stable:latest
-      with:
-        args: /zap/zap.sh -cmd -autorun /zap/zap-config/compassTest.yaml
-      env:
-        ZAP_CONFIG_DIR: ${{ github.workspace }}/zap
+      run: |
+        docker run -v ${{ github.workspace }}/zap/zap-config:/zap/zap-config softwaresecurityproject/zap-stable:latest zap.sh -cmd -autorun /zap/zap-config/compassTest.yaml
+
 
     - name: Setup ZAP Configuration
       run: |
         mkdir -p /zap/zap-config
-        cp -r $ZAP_CONFIG_DIR/* /zap/zap-config/
-      shell: pwsh
+        cp -r ${{ github.workspace }}/zap/zap-config/* /zap/zap-config/
+  
