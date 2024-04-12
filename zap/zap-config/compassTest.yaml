@@ -10,8 +10,8 @@ env:
     authentication:
       method: "form"
       parameters:
-        loginPageUrl: "https://logon7.gov.bc.ca/clp-cgi/int/logon.cgi?flags=1000:1,0&TARGET=$SM$HTTPS%3a%2f%2fsfs7%2egov%2ebc%2eca%2faffwebservices%2fredirectjsp%2fcompass%2fredirect%2ejsp%3fSAMLRequest%3dfVLBctowFLzzFR7fsWWbmPgNMENC2jJDwRNIDr10ZFkmmrElVU$%2BG5u8jmaRJDo1uknb37a40Q9q1Gpa9fZL3$%2FE$%2FP0Y6C4G$%2FXSoThah72RoKiKBAk7TiCZbBf$%2FtxAGhHQRlnFVBt$%2BIn3NoYjcWKGkJ61X83C3vdvsvq$%2B3v3NST0jG84IXdUryPCloTZIqLa6T4opxwrKr4jqbZp74yA06jXnoJP0$%2BCEqjTqLmZusmzsN9GVgXZpiB2PO1REuldXiSTsZkMk7SQzKFrACS$%2F$%2FKolUMLSe0g$%2BmStRohjbHAaHdUpqljEaEyb5swrZ$%2F8kGMdY91UrWOwjp4jKq5SvhdwIWQt5$%2FLqJ6gJC$%2BHE4lONytz94ieVbP7dKYt9xs7$%2FMe7jfvBtjqtOuyOh4Pn$%2F0xzBcDGXMvCkYkpuF98AoVAyo1uDg8EqfxR9h70QNvsT1qlQu3$%2FNw7tc3ZTpq$%2F58piZLhRNTjZoBCL1FzJhrB6$%2FCfzLJt1fnWcGrdO1nT8zCIF6PRxcznv7h4AQ$%3D$%3D%26RelayState%3dhttps$%3A$%2F$%2Fcompass%2egww%2egov%2ebc%2eca$%2F%26SMPORTALURL%3dhttps$%3A$%2F$%2Fsfs7%2egov%2ebc%2eca$%2Faffwebservices$%2Fpublic$%2Fsaml2sso%26SAMLTRANSACTIONID%3de0016524-4ca72077-73f2c950-80e68ea5-0d86bac7-1d"
-        loginRequestUrl: "https://logon7.gov.bc.ca"
+        loginPageUrl: "https://compass.gww.gov.bc.ca"
+        loginRequestUrl: "https://compass.gww.gov.bc.ca"
         loginRequestBody: "instance=instance_int&user={%username%}&password={%password%}"
       verification:
         method: "response"
