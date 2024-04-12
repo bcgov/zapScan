@@ -19,22 +19,11 @@ jobs:
         sed -i 's/\${USERNAME}/${{ secrets.USERNAME }}/g' zap/zap-config/compassTest.yaml
         sed -i 's/\${PASSWORD}/${{ secrets.PASSWORD }}/g' zap/zap-config/compassTest.yaml
 
-    - name: Create ZAP Config Directory
-      run: |
-        mkdir -p ${{ github.workspace }}/zap/zap-config
-        sudo chmod -R 777 ${{ github.workspace }}/zap/zap-config
-
     - name: Pull ZAP Docker Image
       run: docker pull softwaresecurityproject/zap-stable:latest
 
     - name: Run ZAP Automation Framework
       run: |
         docker run \
-        -e HOME=/home/zap \
         -v ${{ github.workspace }}/zap/zap-config:/zap/zap-config \
         softwaresecurityproject/zap-stable:latest zap.sh -cmd -autorun /zap/zap-config/compassTest.yaml
-
-    - name: Setup ZAP Configuration
-      run: |
-        mkdir -p /zap/zap-config
-        cp -r ${{ github.workspace }}/zap/zap-config/* /zap/zap-config/
