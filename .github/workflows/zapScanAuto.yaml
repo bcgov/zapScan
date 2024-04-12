@@ -20,7 +20,7 @@ jobs:
         (Get-Content zap/zap-config/compassTest.yaml) -replace '\${PASSWORD}', '${{ secrets.PASSWORD }}' | Set-Content zap/zap-config/compassTest.yaml
 
     - name: Run ZAP Automation Framework
-      uses: docker://softwaresecurityproject/zap-stable
+      uses: docker://softwaresecurityproject/zap-stable:latest
       with:
         args: /zap/zap.sh -cmd -autorun /zap/zap-config/compassTest.yaml
       env:
