@@ -1,0 +1,118 @@
+---
+env:
+  contexts:
+  - name: "Authentication Test"
+    urls:
+    - "https://logon7.gov.bc.ca"
+    includePaths:
+    - "https://logon7.gov.bc.ca.*"
+    excludePaths: []
+    authentication:
+      method: "browser"
+      parameters:
+        loginPageUrl: "https://logon7.gov.bc.ca/clp-cgi/int/logon.cgi?flags=1000:1,0&TARGET=$SM$HTTPS%3a%2f%2fsfs7%2egov%2ebc%2eca%2faffwebservices%2fredirectjsp%2fcompass%2fredirect%2ejsp%3fSAMLRequest%3dfVLBctowFLzzFR7fsWWbmPgNMENC2jJDwRNIDr10ZFkmmrElVU$%2BG5u8jmaRJDo1uknb37a40Q9q1Gpa9fZL3$%2FE$%2FP0Y6C4G$%2FXSoThah72RoKiKBAk7TiCZbBf$%2FtxAGhHQRlnFVBt$%2BIn3NoYjcWKGkJ61X83C3vdvsvq$%2B3v3NST0jG84IXdUryPCloTZIqLa6T4opxwrKr4jqbZp74yA06jXnoJP0$%2BCEqjTqLmZusmzsN9GVgXZpiB2PO1REuldXiSTsZkMk7SQzKFrACS$%2F$%2FKolUMLSe0g$%2BmStRohjbHAaHdUpqljEaEyb5swrZ$%2F8kGMdY91UrWOwjp4jKq5SvhdwIWQt5$%2FLqJ6gJC$%2BHE4lONytz94ieVbP7dKYt9xs7$%2FMe7jfvBtjqtOuyOh4Pn$%2F0xzBcDGXMvCkYkpuF98AoVAyo1uDg8EqfxR9h70QNvsT1qlQu3$%2FNw7tc3ZTpq$%2F58piZLhRNTjZoBCL1FzJhrB6$%2FCfzLJt1fnWcGrdO1nT8zCIF6PRxcznv7h4AQ$%3D$%3D%26RelayState%3dhttps$%3A$%2F$%2Fcompass%2egww%2egov%2ebc%2eca$%2F%26SMPORTALURL%3dhttps$%3A$%2F$%2Fsfs7%2egov%2ebc%2eca$%2Faffwebservices$%2Fpublic$%2Fsaml2sso%26SAMLTRANSACTIONID%3de0016524-4ca72077-73f2c950-80e68ea5-0d86bac7-1d"
+        loginPageWait: 2
+        browserId: "firefox"
+      verification:
+        method: "poll"
+        loggedInRegex: "\\Q 200 OK\\E"
+        loggedOutRegex: "\\Q 302 Found\\E"
+        pollFrequency: 60
+        pollUnits: "requests"
+        pollUrl: "https://logon7.gov.bc.ca/clp-cgi/int01/private/postLogon.cgi"
+        pollPostData: ""
+        pollAdditionalHeaders:
+        - header: "content-type"
+          value: "application/x-www-form-urlencoded"
+    sessionManagement:
+      method: "headers"
+      parameters:
+        Cookie: "Dummy1=DummyVal1; BCGOVFlags=1000%3A1%2C0; BCGOVTarget={%cookie:BCGOVTarget%};\
+          \ BCGOVCustom=NULL; BCGOVBrand=NULL; BCGOVBehavior=NULL; BCGOVclptryno=1;\
+          \ Dummy2=DummyVal2"
+    technology:
+      exclude: []
+    users:
+    - name: "${USERNAME}"
+      credentials:
+        password: "${PASSWORD}"
+        username: "${USERNAME}"
+  - name: "Default Context"
+    urls:
+    - "https://compass.gww.gov.bc.ca/"
+    includePaths:
+    - "https://compass.gww.gov.bc.ca/.*"
+    excludePaths: []
+    authentication:
+      parameters: {}
+      verification:
+        method: "response"
+        pollFrequency: 60
+        pollUnits: "requests"
+        pollUrl: ""
+        pollPostData: ""
+    sessionManagement:
+      method: "cookie"
+      parameters: {}
+    technology:
+      exclude: []
+  parameters:
+    failOnError: true
+    failOnWarning: false
+    progressToStdout: true
+  vars: {}
+jobs:
+- parameters:
+    scanOnlyInScope: true
+    enableTags: false
+    disableAllRules: false
+  rules: []
+  name: "passiveScan-config"
+  type: "passiveScan-config"
+- parameters:
+    context: "Default Context"
+    user: "${USERNAME}"
+    url: ""
+    maxDuration: 0
+    maxDepth: 0
+    maxChildren: 0
+  name: "spider"
+  type: "spider"
+  tests:
+  - onFail: "INFO"
+    statistic: "automation.spider.urls.added"
+    site: ""
+    operator: ">="
+    value: 100
+    type: "stats"
+    name: "At least 100 URLs found"
+- parameters:
+    context: "Default Context"
+    user: "${USERNAME}"
+    url: ""
+    maxDuration: 60
+    maxCrawlDepth: 10
+    numberOfBrowsers: 16
+    inScopeOnly: true
+    runOnlyIfModern: false
+  name: "spiderAjax"
+  type: "spiderAjax"
+  tests:
+  - onFail: "INFO"
+    statistic: "spiderAjax.urls.added"
+    site: ""
+    operator: ">="
+    value: 100
+    type: "stats"
+    name: "At least 100 URLs found"
+- parameters:
+    maxDuration: 0
+  name: "passiveScan-wait"
+  type: "passiveScan-wait"
+- parameters:
+    template: "risk-confidence-html"
+    reportTitle: "ZAP Scanning Report"
+    reportDescription: ""
+  name: "report"
+  type: "report"
+
