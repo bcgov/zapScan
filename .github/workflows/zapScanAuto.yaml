@@ -1,0 +1,27 @@
+
+
+jobs:
+  zap_scan:
+    runs-on: ubuntu-latest
+    name: Run ZAP Automation Framework
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Replace secrets in autorun.yaml
+      run: |
+        sed -i "s/\${USERNAME}/${{ secrets.USERNAME }}/g" zap-config/autorun.yaml
+        sed -i "s/\${PASSWORD}/${{ secrets.PASSWORD }}/g" zap-config/autorun.yaml
+
+    - name: Run ZAP Automation Framework
+      uses: docker://softwaresecurityproject/zap-stable
+      with:
+        args: /zap/zap.sh -cmd -autorun /zap/zap-config/autorun.yaml
+      env:
+        ZAP_CONFIG_DIR: ${{ github.workspace }}/zap-config
+
+    - name: Setup ZAP Configuration
+      run: |
+        mkdir -p /zap/zap-config
+        cp -r $ZAP_CONFIG_DIR/* /zap/zap-config/
