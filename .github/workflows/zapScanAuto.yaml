@@ -22,17 +22,19 @@ jobs:
     - name: Create ZAP Config Directory
       run: |
         mkdir -p ${{ github.workspace }}/zap/zap-config
-        chmod -R 777 ${{ github.workspace }}/zap/zap-config
+        sudo chmod -R 777 ${{ github.workspace }}/zap/zap-config
 
     - name: Pull ZAP Docker Image
       run: docker pull softwaresecurityproject/zap-stable:latest
 
     - name: Run ZAP Automation Framework
       run: |
-        docker run -v ${{ github.workspace }}/zap/zap-config:/zap/zap-config --user "$(id -u):$(id -g)" softwaresecurityproject/zap-stable:latest zap.sh -cmd -autorun /zap/zap-config/compassTest.yaml
+        docker run \
+        -e HOME=/home/zap \
+        -v ${{ github.workspace }}/zap/zap-config:/zap/zap-config \
+        softwaresecurityproject/zap-stable:latest zap.sh -cmd -autorun /zap/zap-config/compassTest.yaml
 
     - name: Setup ZAP Configuration
       run: |
         mkdir -p /zap/zap-config
-        cp -r ${{ github.workspace }}/zap/zap-config/* /zap/zap-config
-  
+        cp -r ${{ github.workspace }}/zap/zap-config/* /zap/zap-config/
