@@ -35,8 +35,8 @@ env:
     users:
     - name: "${USERNAME}"
       credentials:
-        password: "${PASSWORD}"
-        username: "${USERNAME}"
+        password: ${PASSWORD}
+        username: ${USERNAME}
   - name: "Default Context"
     urls:
     - "https://compass.gww.gov.bc.ca/"
@@ -71,7 +71,7 @@ jobs:
   type: "passiveScan-config"
 - parameters:
     context: "Default Context"
-    user: "${USERNAME}"
+    user: ${USERNAME}
     url: ""
     maxDuration: 0
     maxDepth: 0
@@ -88,7 +88,7 @@ jobs:
     name: "At least 100 URLs found"
 - parameters:
     context: "Default Context"
-    user: "${USERNAME}"
+    user: ${USERNAME}
     url: ""
     maxDuration: 60
     maxCrawlDepth: 10
