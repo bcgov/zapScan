@@ -14,6 +14,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Check URL Accessibility
+      run: |
+        curl -I https://compass.gww.gov.bc.ca  # Replace with your actual URL
+        wget --spider -S https://compass.gww.gov.bc.ca
+
     - name: Replace secrets in compassTest.yaml
       run: |
         sed -i 's/\${USERNAME}/${{ secrets.USERNAME }}/g' zap/zap-config/compassTest.yaml
