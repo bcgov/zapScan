@@ -26,4 +26,5 @@ jobs:
       run: |
         docker run \
         -v ${{ github.workspace }}/zap/zap-config:/zap/zap-config \
+        -v ${{ github.workspace }}/zap/reports:/zap/reports \
         softwaresecurityproject/zap-stable:latest zap.sh -cmd -autorun /zap/zap-config/compassTest.yaml
