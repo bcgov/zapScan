@@ -14,15 +14,22 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Setup Report Directory
-      run: |
-        mkdir -p ${{ github.workspace }}/zap/reports
-        sudo chmod -R 777 ${{ github.workspace }}/zap/reports
-
     - name: Replace secrets in compassTest.yaml
       run: |
         sed -i 's/\${USERNAME}/${{ secrets.USERNAME }}/g' zap/zap-config/compassTest.yaml
         sed -i 's/\${PASSWORD}/${{ secrets.PASSWORD }}/g' zap/zap-config/compassTest.yaml
+
+    - name: Check Replacement Success
+      run: |
+        if grep -q '${USERNAME}' zap/zap-config/compassTest.yaml; then
+          echo "Username placeholder not replaced."
+          exit 1
+        fi
+        if grep -q '${PASSWORD}' zap/zap-config/compassTest.yaml; then
+          echo "Password placeholder not replaced."
+          exit 1
+        fi
+        echo "All placeholders replaced successfully."
 
     - name: Pull ZAP Docker Image
       run: docker pull softwaresecurityproject/zap-stable:latest
