@@ -33,3 +33,9 @@ jobs:
         -v ${{ github.workspace }}/zap/zap-config:/zap/zap-config \
         -v ${{ github.workspace }}/zap/reports:/zap/reports \
         softwaresecurityproject/zap-stable:latest bash -c "mkdir -p /zap/reports && zap.sh -cmd -autorun /zap/zap-config/compassTest.yaml"
+
+    - name: Upload ZAP Report
+      uses: actions/upload-artifact@v2
+      with:
+        name: ZAP-Report
+        path: ${{ github.workspace }}/zap/reports/
