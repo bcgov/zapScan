@@ -30,10 +30,10 @@ env:
     technology:
       exclude: []
     users:
-    - name: "${USERNAME}"
+    - name: "logdavis"
       credentials:
-        password: "${PASSWORD}"
-        username: "${USERNAME}"
+        password: "B@mboozle01!"
+        username: "logdavis"
   parameters:
     failOnError: true
     failOnWarning: false
@@ -51,7 +51,7 @@ jobs:
   type: "passiveScan-config"
 - parameters:
     context: "Authentication Test"
-    user: "${USERNAME}"
+    user: "logdavis"
     url: ""
     maxDuration: 0
     maxDepth: 0
@@ -68,7 +68,7 @@ jobs:
     type: "stats"
 - parameters:
     context: "Authentication Test"
-    user: "${USERNAME}"
+    user: "logdavis"
     url: ""
     maxDuration: 60
     maxCrawlDepth: 10
@@ -92,7 +92,7 @@ jobs:
 - parameters:
     template: "risk-confidence-html"
     theme: "original"
-    reportDir: "zap"
+    reportDir: "\\\\SFP.IDIR.BCGOV\\U133\\LOGDAVIS$\\Profile\\Desktop\\Zap Yamls"
     reportFile: ""
     reportTitle: "ZAP Scanning Report"
     reportDescription: ""
