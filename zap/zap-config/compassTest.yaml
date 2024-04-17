@@ -1,1 +1,130 @@
+---
+env:
+  contexts:
+  - name: "Authentication Test"
+    urls:
+    - "https://compass.gww.gov.bc.ca"
+    includePaths:
+    - "https://compass.gww.gov.bc.ca.*"
+    excludePaths: []
+    authentication:
+      method: "browser"
+      parameters:
+        loginPageUrl: "https://compass.gww.gov.bc.ca/"
+        loginPageWait: 5
+        browserId: "firefox"
+      verification:
+        method: "poll"
+        loggedInRegex: "\\Q 200 OK\\E"
+        loggedOutRegex: "\\Q 302 Moved Temporarily\\E"
+        pollFrequency: 60
+        pollUnits: "requests"
+        pollUrl: "https://compass.gww.gov.bc.ca/"
+        pollPostData: ""
+    sessionManagement:
+      method: "headers"
+      parameters:
+        Cookie: "88b18f473ac9d856c21526a6326a1a8c=7e989d3cd428397451c8da6cdfa3ef35;\
+          \ SMSESSION={%cookie:SMSESSION%}; FAILREASON=0; session=.eJx1j8EKwjAQRP8lZxUFRVnoQRTbSm2VqAjiITapprSJdBMVxX83imA9eFmWecPs7J0gK4uYlSLkBEiU-OPhOqSkUdMnuiqZcdRWCjRDiaAcQDAp0OEsgk6r81Ykb2ZvL1iFJ5HKTAr-E_WaC8uKF6kIKFsUdUznfw1UIEqtQsXF1VXJu8hyc_Mnvel50z9miTrIUbDUOm57g31A1xfP-1xeoag4M4zAnVi3Sy6U-eRvvx_vHo8nXMRdzQ.Zh_43w.NcHCKSI4F9b5sQXH9CYdIKVZXuM;\
+          \ _pk_id.2.aad3=af6c0bebb4602e08.1713371365.; _pk_ses.2.aad3=1"
+    technology:
+      exclude: []
+    users:
+    - name: "${USERNAME}"
+      credentials:
+        password: "${PASSWORD}"
+        username: "${USERNAME}"
+  parameters:
+    failOnError: true
+    failOnWarning: false
+    progressToStdout: true
+  vars: {}
+jobs:
+- parameters:
+    maxAlertsPerRule: 0
+    scanOnlyInScope: true
+    maxBodySizeInBytesToScan: 0
+    enableTags: false
+    disableAllRules: false
+  rules: []
+  name: "passiveScan-config"
+  type: "passiveScan-config"
+- parameters:
+    context: "Authentication Test"
+    user: "${USERNAME}"
+    url: ""
+    maxDuration: 0
+    maxDepth: 0
+    maxChildren: 0
+  name: "spider"
+  type: "spider"
+  tests:
+  - onFail: "INFO"
+    statistic: "automation.spider.urls.added"
+    site: ""
+    operator: ">="
+    value: 100
+    name: "At least 100 URLs found"
+    type: "stats"
+- parameters:
+    context: "Authentication Test"
+    user: "${USERNAME}"
+    url: ""
+    maxDuration: 60
+    maxCrawlDepth: 10
+    numberOfBrowsers: 16
+    inScopeOnly: true
+    runOnlyIfModern: false
+  name: "spiderAjax"
+  type: "spiderAjax"
+  tests:
+  - onFail: "INFO"
+    statistic: "spiderAjax.urls.added"
+    site: ""
+    operator: ">="
+    value: 100
+    name: "At least 100 URLs found"
+    type: "stats"
+- parameters:
+    maxDuration: 0
+  name: "passiveScan-wait"
+  type: "passiveScan-wait"
+- parameters:
+    template: "risk-confidence-html"
+    theme: "original"
+    reportDir: ""
+    reportFile: ""
+    reportTitle: "ZAP Scanning Report"
+    reportDescription: ""
+    displayReport: false
+  risks:
+  - "info"
+  - "low"
+  - "medium"
+  - "high"
+  confidences:
+  - "falsepositive"
+  - "low"
+  - "medium"
+  - "high"
+  - "confirmed"
+  sections:
+  - "siteRiskCounts"
+  - "responseBody"
+  - "appendix"
+  - "alertTypes"
+  - "responseHeader"
+  - "alertTypeCounts"
+  - "riskConfidenceCounts"
+  - "alerts"
+  - "aboutThisReport"
+  - "contents"
+  - "requestBody"
+  - "reportDescription"
+  - "reportParameters"
+  - "requestHeader"
+  - "summaries"
+  sites: []
+  name: "compreport"
+  type: "report"
 
