@@ -1,7 +1,7 @@
 ---
 env:
   contexts:
-  - name: "Authentication Test"
+  - name: "Compass Authentication"
     urls:
     - "https://compass.gww.gov.bc.ca"
     includePaths:
@@ -10,7 +10,7 @@ env:
     authentication:
       method: "browser"
       parameters:
-        loginPageUrl: "https://compass.gww.gov.bc.ca/"
+        loginPageUrl: "https://compass.gww.gov.bc.ca"
         loginPageWait: 5
         browserId: "firefox"
       verification:
@@ -24,9 +24,10 @@ env:
     sessionManagement:
       method: "headers"
       parameters:
-        Cookie: "88b18f473ac9d856c21526a6326a1a8c=7e989d3cd428397451c8da6cdfa3ef35;\
-          \ SMSESSION={%cookie:SMSESSION%}; FAILREASON=0; session=.eJx1j8EKwjAQRP8lZxUFRVnoQRTbSm2VqAjiITapprSJdBMVxX83imA9eFmWecPs7J0gK4uYlSLkBEiU-OPhOqSkUdMnuiqZcdRWCjRDiaAcQDAp0OEsgk6r81Ykb2ZvL1iFJ5HKTAr-E_WaC8uKF6kIKFsUdUznfw1UIEqtQsXF1VXJu8hyc_Mnvel50z9miTrIUbDUOm57g31A1xfP-1xeoag4M4zAnVi3Sy6U-eRvvx_vHo8nXMRdzQ.Zh_43w.NcHCKSI4F9b5sQXH9CYdIKVZXuM;\
-          \ _pk_id.2.aad3=af6c0bebb4602e08.1713371365.; _pk_ses.2.aad3=1"
+        Cookie: "88b18f473ac9d856c21526a6326a1a8c=ba02c4305db8c4e0dbf02c26ee76aa79;\
+          \ SMSESSION={%cookie:SMSESSION%}; FAILREASON=0; session=.eJx1j0ELgkAQhf_LniswJGjAgxiVpJaIFUWHzV1tTddw3RDF_56KkB26DMP7Hm_e1EjgNHFwSk2CAFn7zUo_mh6ajPR1lqe4aKnMOWRYMAG8BQKKADzdtkCZKb3CyDTsvSC5eNGAhYySn6huuhInHckRcJkkY-wd_ho8KgTLuMkJLdsqu9Oicp7-u5wbNg_vVqyS6nHZusY50kyqLuNI04bLvqA5wQVGUCPZ7oxQXgz51-_Ht6b5AFOdXbE.Zik8aw.Vux3c0yjhOzcs3F85rMm1ZRi2Ew;\
+          \ _pk_ref.2.aad3=%5B%22%22%2C%22%22%2C1713978479%2C%22https%3A%2F%2Fsfs7.gov.bc.ca%2F%22%5D;\
+          \ _pk_id.2.aad3=b2e07145849f4797.1713978479.; _pk_ses.2.aad3=1"
     technology:
       exclude: []
     users:
@@ -41,16 +42,14 @@ env:
   vars: {}
 jobs:
 - parameters:
-    maxAlertsPerRule: 0
     scanOnlyInScope: true
-    maxBodySizeInBytesToScan: 0
     enableTags: false
     disableAllRules: false
   rules: []
   name: "passiveScan-config"
   type: "passiveScan-config"
 - parameters:
-    context: "Authentication Test"
+    context: "Compass Authentication"
     user: "${USERNAME}"
     url: ""
     maxDuration: 0
@@ -67,8 +66,8 @@ jobs:
     name: "At least 100 URLs found"
     type: "stats"
 - parameters:
-    context: "Authentication Test"
-    user: "${USERNAME}"
+    context: "Compass Authentication"
+    user: "logdavis"
     url: ""
     maxDuration: 60
     maxCrawlDepth: 10
@@ -85,15 +84,13 @@ jobs:
     value: 100
     name: "At least 100 URLs found"
     type: "stats"
-- parameters:
-    maxDuration: 0
+- parameters: {}
   name: "passiveScan-wait"
   type: "passiveScan-wait"
 - parameters:
-    template: "risk-confidence-html"
-    theme: "original"
-    reportDir: ""
-    reportFile: ""
+    template: "traditional-pdf"
+    reportDir: "\\\\SFP.IDIR.BCGOV\\U133\\LOGDAVIS$\\Profile\\Desktop"
+    reportFile: "CompassScan"
     reportTitle: "ZAP Scanning Report"
     reportDescription: ""
     displayReport: false
@@ -109,22 +106,10 @@ jobs:
   - "high"
   - "confirmed"
   sections:
-  - "siteRiskCounts"
-  - "responseBody"
-  - "appendix"
-  - "alertTypes"
-  - "responseHeader"
-  - "alertTypeCounts"
-  - "riskConfidenceCounts"
-  - "alerts"
-  - "aboutThisReport"
-  - "contents"
-  - "requestBody"
-  - "reportDescription"
-  - "reportParameters"
-  - "requestHeader"
-  - "summaries"
+  - "instancecount"
+  - "alertdetails"
+  - "alertcount"
   sites: []
-  name: "compreport"
+  name: "report"
   type: "report"
 
